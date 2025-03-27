@@ -2,7 +2,7 @@ SOURCE_DIR=${1%/}
 DESTINATION_DIR=${2%/}
 
 if [[ $SOURCE_DIR == "" || $DESTINATION_DIR == "" ]]; then
-  echo "usage: ./photo-move.sh SOURCE_DIR DESTINATION_DIR"
+  echo "usage: ./photos-move.sh SOURCE_DIR DESTINATION_DIR"
   echo "description: sort photos from SOURCE_DIR into DESTINATION_DIR"
   echo "  - moves photos to DESTINATION_DIR/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}"
   echo "  - detects duplicates and deletes source when destination is identical"

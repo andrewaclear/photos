@@ -23,12 +23,12 @@ Also uses standard linux commands: `cp`, `diff`, `cmp`, `rm`, `basename`, and `c
 
 ## usage
 
-### `./photo.sh`
+### `./photos.sh`
 
-`./photo.sh` performs the strict validation process before deleting. It is designed for downloading from a mobile device that could be disconnected midway, where assurance of successful download before deleting the source is required. Run this when downloading your devices.
+`./photos.sh` performs the strict validation process before deleting. It is designed for downloading from a mobile device that could be disconnected midway, where assurance of successful download before deleting the source is required. Run this when downloading your devices.
 
 ```sh
-usage: ./photo.sh SOURCE_DIR DESTINATION_DIR
+usage: ./photos.sh SOURCE_DIR DESTINATION_DIR
 ```
 
 **description:** download photos from mobile device `SOURCE_DIR` into `DESTINATION_DIR`
@@ -37,12 +37,12 @@ usage: ./photo.sh SOURCE_DIR DESTINATION_DIR
 - detects duplicates and deletes source when destination is identical
 - errors and stops if any steps fails
 
-### `./photo-move.sh`
+### `./photos-move.sh`
 
-`./photo-move.sh` does not perform the script validation process before moving. It is designed for sorting already downloaded photos into a new archive path that will have the nice year and month file structure with the updated date and time naming. Run this on your current photo directories to nicely sort everything into the new file structure.
+`./photos-move.sh` does not perform the script validation process before moving. It is designed for sorting already downloaded photos into a new archive path that will have the nice year and month file structure with the updated date and time naming. Run this on your current photo directories to nicely sort everything into the new file structure.
 
 ```sh
-usage: ./photo-move.sh SOURCE_DIR DESTINATION_DIR
+usage: ./photos-move.sh SOURCE_DIR DESTINATION_DIR
 ```
 
 **description:** sort photos from `SOURCE_DIR` into `DESTINATION_DIR`
@@ -50,12 +50,12 @@ usage: ./photo-move.sh SOURCE_DIR DESTINATION_DIR
 - detects duplicates and deletes source when destination is identical
 - errors and stops if any steps fails
 
-### `./photo-merge.sh`
+### `./photos-merge.sh`
 
-`./photo-merge.sh` does not apply the year and month file path structure on the destination nor the validation process. It is designed to detect duplicates across the two directories and merge as much as possible. Run this on directories you have already sorted but may have duplicates among themselves.
+`./photos-merge.sh` does not apply the year and month file path structure on the destination nor the validation process. It is designed to detect duplicates across the two directories and merge as much as possible. Run this on directories you have already sorted but may have duplicates among themselves.
 
 ```sh
-usage: ./photo-merge.sh SOURCE_DIR DESTINATION_DIR
+usage: ./photos-merge.sh SOURCE_DIR DESTINATION_DIR
 ```
 
 **description:** merge photos from `SOURCE_DIR` into `DESTINATION_DIR`
@@ -68,7 +68,7 @@ usage: ./photo-merge.sh SOURCE_DIR DESTINATION_DIR
 Mount your mobile device through the UI with nautilus gvfs. Copy the device's photo folder and set it as the SOURCE_DIR. Copy your archive path and set it as the DESTINATION_DIR. For example:
 
 ```sh
-./photo.sh /run/user/1000/gvfs/afc:host=00000000-0000000000000000/DCIM /run/media/username/MyPassport/photos
+./photos.sh /run/user/1000/gvfs/afc:host=00000000-0000000000000000/DCIM /run/media/username/MyPassport/photoss
 ```
 
 The out will look like this:

@@ -2,7 +2,7 @@ SOURCE_DIR=${1%/}
 DESTINATION_DIR=${2%/}
 
 if [[ $SOURCE_DIR == "" || $DESTINATION_DIR == "" ]]; then
-  echo "usage: ./photo-merge.sh SOURCE_DIR DESTINATION_DIR"
+  echo "usage: ./photos-merge.sh SOURCE_DIR DESTINATION_DIR"
   echo "description: merge photos from SOURCE_DIR into DESTINATION_DIR"
   echo "  - moves photos to DESTINATION_DIR/{original-photo-name.type}"
   echo "  - detects duplicates and deletes source when destination is identical"
