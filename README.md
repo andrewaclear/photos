@@ -2,7 +2,7 @@
 
 > author: Andrew D'Amario © 2025
 
-These scripts are designed to download photos with reliability, efficiency, and ease.
+Custom scripts designed to download photos with reliability, efficiency, and ease.
 
 Primary features are:
 - sorting downloaded photos into structure file path and helpful naming: `DESTINATION_DIR/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}`
