@@ -23,8 +23,8 @@ while IFS= read -r file; do
 
   year=$(echo $date | cut -d '-' -f 1)
   month=$(echo $date | cut -d '-' -f 2)
-  [[ -d ${DESTINATION_DIR}/${year} ]] || mkdir ${DESTINATION_DIR}/${year}
-  [[ -d ${DESTINATION_DIR}/${year}/${month} ]] || mkdir ${DESTINATION_DIR}/${year}/${month}
+  [[ -d "${DESTINATION_DIR}/${year}" ]] || mkdir "${DESTINATION_DIR}/${year}"
+  [[ -d "${DESTINATION_DIR}/${year}/${month}" ]] || mkdir "${DESTINATION_DIR}/${year}/${month}"
 
   new_file="${DESTINATION_DIR}/${year}/${month}/${date}_${base}"
   if [[ -f "$new_file" ]]; then
@@ -43,6 +43,6 @@ while IFS= read -r file; do
 
   count=$(($count + 1))
   echo "🮱"
-done <<< $(find $SOURCE_DIR -type f)
+done <<< $(find "$SOURCE_DIR" -type f)
 
 echo "successfully saved $count file(s)"

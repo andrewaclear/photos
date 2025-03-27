@@ -14,7 +14,7 @@ count=0
 
 while IFS= read -r file; do
 
-  new_file=${DESTINATION_DIR}${file#${SOURCE_DIR}}
+  new_file="${DESTINATION_DIR}${file#${SOURCE_DIR}}"
 
   if [[ -f "$new_file" ]]; then
     echo -n "removing file://${file} if it is the same, file://${new_file} exists "
@@ -32,6 +32,6 @@ while IFS= read -r file; do
 
   count=$(($count + 1))
   echo "🮱"
-done <<< $(find $SOURCE_DIR -type f)
+done <<< $(find "$SOURCE_DIR" -type f)
 
 echo "successfully saved $count file(s)"
