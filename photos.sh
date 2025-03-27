@@ -30,7 +30,7 @@ while IFS= read -r file; do
   if [[ -f "$new_file" ]]; then
     echo -n "removing file://${file} if it is the same, file://${new_file} exists "
   else
-    rsync -tUgoplAXEHD "$file" "$new_file" ||
+    cp -a "$file" "$new_file" ||
       { echo "ERROR: failed to save file://${file} as file://${new_file}"; exit 1; }
     echo -n "file://${file} -> file://${new_file} "
   fi
