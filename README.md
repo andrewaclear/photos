@@ -17,6 +17,7 @@ With these features you not only get a fully sorted archive separated by year an
 
 Required commands:
 - `exiftool` exif tool, install from repository
+  - ARCH install: `sudo pacman -S perl-image-exiftool`
 
 Also uses standard linux commands: `cp`, `diff`, `cmp`, `rm`, `basename`, and `cut`.
 
