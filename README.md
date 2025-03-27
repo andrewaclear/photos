@@ -24,6 +24,8 @@ Also uses standard linux commands: `cp`, `diff`, `cmp`, `rm`, `basename`, and `c
 
 ### `./photo.sh`
 
+`./photo.sh` performs the strict validation process before deleting. It is designed for downloading from a mobile device that could be disconnected midway, where assurance of successful download before deleting the source is required. Run this when downloading your devices.
+
 ```sh
 usage: ./photo.sh SOURCE_DIR DESTINATION_DIR
 ```
@@ -36,6 +38,8 @@ usage: ./photo.sh SOURCE_DIR DESTINATION_DIR
 
 ### `./photo-move.sh`
 
+`./photo-move.sh` does not perform the script validation process before moving. It is designed for sorting already downloaded photos into a new archive path that will have the nice year and month file structure with the updated date and time naming. Run this on your current photo directories to nicely sort everything into the new file structure.
+
 ```sh
 usage: ./photo-move.sh SOURCE_DIR DESTINATION_DIR
 ```
@@ -46,6 +50,8 @@ usage: ./photo-move.sh SOURCE_DIR DESTINATION_DIR
 - errors and stops if any steps fails
 
 ### `./photo-merge.sh`
+
+`./photo-merge.sh` does not apply the year and month file path structure on the destination nor the validation process. It is designed to detect duplicates across the two directories and merge as much as possible. Run this on directories you have already sorted but may have duplicates among themselves.
 
 ```sh
 usage: ./photo-merge.sh SOURCE_DIR DESTINATION_DIR
