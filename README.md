@@ -7,7 +7,7 @@ Custom scripts designed to download photos with reliability, efficiency, and eas
 Primary features are:
 - sorting downloaded photos into structure file path and helpful naming: `DESTINATION_DIR/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}`
 - verifies successful download by verifying no diff in file attributes and byte comparison before deleting source
-- preservation of file attributes and times
+- preservation of file attributes and timestamps
 - detects duplicates and deletes source when destination is identical
 - errors and stops if any steps fails
 
