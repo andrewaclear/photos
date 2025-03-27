@@ -4,7 +4,7 @@ DESTINATION_DIR=${2%/}
 if [[ $SOURCE_DIR == "" || $DESTINATION_DIR == "" ]]; then
   echo "usage: ./photo.sh SOURCE_DIR DESTINATION_DIR"
   echo "description: download photos from mobile device SOURCE_DIR into DESTINATION_DIR"
-  echo "  - saves photos to DESTINATION_DIR/{year}/{month}/{date}_{original-photo-name.type}"
+  echo "  - saves photos to DESTINATION_DIR/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}"
   echo "  - verifies successful download before deleting source"
   echo "  - detects duplicates and deletes source when destination is identical"
   echo "  - errors and stops if any steps fails"
