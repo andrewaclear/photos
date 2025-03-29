@@ -13,9 +13,7 @@ fi
 
 count=0
 
-# for file in $(find $SOURCE_DIR -type f); do
 while IFS= read -r file; do
-  # new_filename=$(exiftool -p '${dateTimeOriginal}__${fileName}' -q -f $file | sed 's/ /_/g' | sed 's/:/-/g')
   base=$(basename "$file")
   date=$(exiftool -s -s -s -d "%Y-%m-%d-%H%M%S" -DateTimeOriginal -CreateDate -FileModifyDate "$file" | grep -Ev "0000-|0000:" | head -n 1)
   [[ $date == "" ]] &&
