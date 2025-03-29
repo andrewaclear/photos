@@ -17,8 +17,6 @@ if [[ ( $MODE != "download" && $MODE != "move" ) || $SOURCE_DIR == "" || $DESTIN
   exit 1
 fi
 
-count=0
-
 function download() {
   cp -a "$file" "$new_file" ||
     { echo "ERROR: failed to save file://${file} as file://${new_file}"; exit 1; }
@@ -36,9 +34,19 @@ function move() {
   echo "  🡢 file://${new_file} ✓"
 }
 
+count=0
+total=$(find "$SOURCE_DIR" -type f | wc -l)
+
 while IFS= read -r file; do
   [[ -f $file ]] || continue
-  echo "file://${file}"
+  count=$(($count + 1))
+
+  current_file="file://${file}"
+  progress="[${count}/${total}]"
+  columns=$(tput cols)
+  N=$(( columns - ${#current_file} - ${#progress} ))
+  printf "${current_file}%${N}s${progress}\n"
+
   name=$(basename "$file")
   base="${name#*[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]_}"
   date=$(exiftool -s -s -s -d "%Y-%m-%d-%H%M%S" -DateTimeOriginal -CreateDate -FileModifyDate "$file" | grep -Ev "0000-|0000:" | head -n 1)
