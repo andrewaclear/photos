@@ -77,13 +77,12 @@ while IFS= read -r file; do
   done <<< $(echo "$DESTINATION_DIRS" | sed 's/,/\n/g')
 
   if [[ $MODE == "download" || $found_file ]]; then
+    echo -n "  𐄂 removing original "
     rm "$file" ||
       { echo "ERROR: saved file://${new_file}, but could not delete the original file file://${file}"; exit 1; }
-    echo "  𐄂 removed original"
+    echo "✓"
   fi
 
-  count=$(($count + 1))
-  echo "  ✓ done"
 done <<< $(find "$SOURCE_DIR" -type f)
 
 echo "successfully saved $count file(s)"
