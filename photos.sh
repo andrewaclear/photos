@@ -8,7 +8,7 @@ if [[ ( $MODE != "download" && $MODE != "move" ) || $SOURCE_DIR == "" || $DESTIN
   echo "usage: ./photos.sh MODE(=download|move) SOURCE_DIR DESTINATION_DIR"
   echo "description: download photos from mobile device SOURCE_DIR into DESTINATION_DIR"
   echo "  - saves photos to DESTINATION_DIR/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}"
-  echo "  - 'download' MODE verifies successful download before deleting source, 'move' MOVE does not"
+  echo "  - 'download' MODE verifies successful download before deleting source, 'move' MODE does not"
   echo "  - detects duplicates and deletes source when destination is identical"
   echo "  - errors and stops if any steps fails"
   exit 1
