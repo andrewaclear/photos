@@ -65,7 +65,7 @@ while IFS= read -r file; do
     if [[ $(find "${destination}/${year}/${month}" -type f -name "${date}*") ]]; then
       while IFS= read -r duplicate_file; do
         [[ -f $duplicate_file ]] || continue
-        diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$duplicate_file" | grep -Ev "File|Directory") > /dev/null || continue 
+        diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$duplicate_file" | grep -Ev "File|Directory") > /dev/null || continue
         cmp -s "$file" "$duplicate_file" > /dev/null || continue
         echo "  🡤 file://${duplicate_file} is the same, skipping"
         found_file=true
@@ -77,7 +77,7 @@ while IFS= read -r file; do
         $MODE
       else
         diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$new_file" | grep -Ev "File|Directory")
-        cmp -s "$file" "$new_file"
+        cmp "$file" "$new_file"
         echo "ERROR: files are not the same: file://${file} and file://${new_file}"
         exit 1;
       fi
