@@ -18,7 +18,8 @@ count=0
 while IFS= read -r file; do
   [[ -f $file ]] || continue
   unset found_file
-  base=$(basename "$file")
+  name=$(basename "$file")
+  base="${name#*[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]_}"
   date=$(exiftool -s -s -s -d "%Y-%m-%d-%H%M%S" -DateTimeOriginal -CreateDate -FileModifyDate "$file" | grep -Ev "0000-|0000:" | head -n 1)
   [[ $date == "" ]] &&
     { echo "ERROR: failed to get date from exif of file://${file}"; exit 1; }
