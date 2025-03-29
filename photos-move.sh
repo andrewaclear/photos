@@ -1,3 +1,5 @@
+#!/bin/bash
+
 SOURCE_DIR=${1%/}
 DESTINATION_DIR=${2%/}
 
