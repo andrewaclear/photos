@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 SOURCE_DIR=${1%/}
 DESTINATION_DIR=${2%/}

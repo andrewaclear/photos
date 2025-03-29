@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 MODE=$1
 SOURCE_DIR=${2%/}
