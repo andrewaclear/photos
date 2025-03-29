@@ -19,24 +19,24 @@ Required commands:
 - `exiftool` exif tool, install from repository
   - ARCH install: `sudo pacman -S perl-image-exiftool`
 
-Also uses standard linux commands: `cp`, `diff`, `cmp`, `rm`, `basename`, and `cut`.
+Also uses standard linux commands: `cp`, `mv`, `find`, `diff`, `cmp`, `rm`, `basename`, `sed`, `tput`, and `cut`.
 
 ## usage
 
 ### `./photos.sh`
 
-`./photos.sh download` performs the strict validation process before deleting. It is designed for downloading from a mobile device that could be disconnected midway, where assurance of successful download before deleting the source is required. Run this when downloading your devices.
+`./photos.sh download` performs the strict validation process before deleting, supporting multiple destinations. It is designed for downloading from a mobile device that could be disconnected midway, where assurance of successful download before deleting the source is required. Run this when downloading your devices.
 
 `./photos.sh move` does not perform the script validation process before moving. It is designed for sorting already downloaded photos into a new archive path that will have the nice year and month file structure with the updated date and time naming. Run this on your current photo directories to nicely sort everything into the new file structure.
 
 ```
-usage: ./photos.sh MODE(=download|move) SOURCE_DIR DESTINATION_DIR
+usage: ./photos.sh MODE(=download|move) SOURCE_DIR DESTINATION_DIRS(=destination_1[,destination_2,...])
 ```
 
-**description:** download photos from mobile device `SOURCE_DIR` into `DESTINATION_DIR`
-- saves photos to `DESTINATION_DIR/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}`
+**description:** download photos from mobile device `SOURCE_DIR` into each comma separated `DESTINATION_DIRS` (note: only one destination is permitted in `move` MODE)"
+- for each of the `DESTINATION_DIRS`, saves photos to `{destination}/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}`
+  - note: if the original photo name is prefixed with `YYYY-MM-DD-hhmmss_`, the prefix is removed reset to the correct date
 - `download` MODE verifies successful download before deleting source, `move` MODE does not
-- verifies successful download before deleting source
 - detects duplicates and deletes source when destination is identical
 - errors and stops if any steps fails
 
@@ -53,7 +53,7 @@ usage: ./photos-merge.sh SOURCE_DIR DESTINATION_DIR
 - detects duplicates and deletes source when destination is identical
 - errors and stops if any steps fails
 
-## example
+## examples
 
 Mount your mobile device through the UI with nautilus gvfs. Copy the device's photo folder and set it as the SOURCE_DIR. Copy your archive path and set it as the DESTINATION_DIR. For example:
 
@@ -82,3 +82,7 @@ If you get an error at any point during the process you will see something like 
 ```log
 ERROR: files are not the same: file:///run/user/1000/gvfs/afc:host=00000000-0000000000000000/DCIM/100APPLE/IMG_4053.JPG and file:///run/media/username/MyPassport/photos/2024/12/2024-12-14-183110_IMG_4053.JPG
 ```
+
+Example downloading to three destinations with duplicates:
+
+![example](example.png)
