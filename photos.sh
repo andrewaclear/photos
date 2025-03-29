@@ -93,4 +93,4 @@ while IFS= read -r file; do
 
 done <<< $(find "$SOURCE_DIR" -type f)
 
-echo "successfully saved $count file(s)"
+echo "successfully saved $count/$total file(s)"
