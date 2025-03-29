@@ -35,7 +35,7 @@ usage: ./photos.sh MODE(=download|move) SOURCE_DIR DESTINATION_DIRS(=destination
 
 **description:** download photos from mobile device `SOURCE_DIR` into each comma separated `DESTINATION_DIRS` (note: only one destination is permitted in `move` MODE)"
 - for each of the `DESTINATION_DIRS`, saves photos to `{destination}/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}`
-  - note: if the original photo name is prefixed with `YYYY-MM-DD-hhmmss_`, the prefix is removed reset to the correct date
+  - note: if the original photo name is prefixed with `YYYY-MM-DD-hhmmss_`, the prefix is removed and reset to the correct date
 - `download` MODE verifies successful download before deleting source, `move` MODE does not
 - detects duplicates and deletes source when destination is identical
 - errors and stops if any steps fails
