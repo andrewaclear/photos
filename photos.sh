@@ -1,19 +1,38 @@
 #!/bin/bash
 
-SOURCE_DIR=${1%/}
-DESTINATION_DIR=${2%/}
+MODE=$1
+SOURCE_DIR=${2%/}
+DESTINATION_DIR=${3%/}
 
-if [[ $SOURCE_DIR == "" || $DESTINATION_DIR == "" ]]; then
-  echo "usage: ./photos.sh SOURCE_DIR DESTINATION_DIR"
+if [[ ( $MODE != "download" && $MODE != "move" ) || $SOURCE_DIR == "" || $DESTINATION_DIR == "" ]]; then
+  echo "usage: ./photos.sh MODE(=download|move) SOURCE_DIR DESTINATION_DIR"
   echo "description: download photos from mobile device SOURCE_DIR into DESTINATION_DIR"
   echo "  - saves photos to DESTINATION_DIR/{YYYY}/{MM}/{YYYY-MM-DD-hhmmss}_{original-photo-name.type}"
-  echo "  - verifies successful download before deleting source"
+  echo "  - 'download' MODE verifies successful download before deleting source, 'move' MOVE does not"
   echo "  - detects duplicates and deletes source when destination is identical"
   echo "  - errors and stops if any steps fails"
   exit 1
 fi
 
 count=0
+
+function download() {
+  cp -a "$file" "$new_file" ||
+    { echo "ERROR: failed to save file://${file} as file://${new_file}"; exit 1; }
+  echo -n "file://${file} -> file://${new_file} "
+  diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$new_file" | grep -Ev "File|Directory") ||
+    { echo -e "\nERROR: file exifs are not the same: file://${file} and file://${new_file}"; exit 1; }
+  cmp -s "$file" "$new_file" ||
+    { echo -e "\nERROR: files are not the same: file://${file} and file://${new_file}"; exit 1; }
+  rm "$file" ||
+    { echo -e "\nERROR: saved file://${new_file}, but could not delete the original file file://${file}"; exit 1; }
+}
+
+function move() {
+  mv -n "$file" "$new_file" ||
+    { echo "ERROR: failed to move file://${file} as file://${new_file}"; exit 1; }
+  echo -n "file://${file} -> file://${new_file} "
+}
 
 while IFS= read -r file; do
   [[ -f $file ]] || continue
@@ -44,15 +63,7 @@ while IFS= read -r file; do
   fi
   if [[ ! $found_file ]]; then
     if [[ ! -f $new_file ]]; then
-      cp -a "$file" "$new_file" ||
-        { echo "ERROR: failed to save file://${file} as file://${new_file}"; exit 1; }
-      echo -n "file://${file} -> file://${new_file} "
-      diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$new_file" | grep -Ev "File|Directory") ||
-        { echo -e "\nERROR: file exifs are not the same: file://${file} and file://${new_file}"; exit 1; }
-      cmp -s "$file" "$new_file" ||
-        { echo -e "\nERROR: files are not the same: file://${file} and file://${new_file}"; exit 1; }
-      rm "$file" ||
-        { echo -e "\nERROR: saved file://${new_file}, but could not delete the original file file://${file}"; exit 1; }
+      $MODE
     else
       diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$new_file" | grep -Ev "File|Directory")
       cmp -s "$file" "$new_file"
