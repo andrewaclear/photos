@@ -2,7 +2,7 @@
 
 MODE=$1
 SOURCE_DIR=${2%/}
-DESTINATION_DIRS=${3%/}
+DESTINATION_DIRS=${3}
 
 if [[ ( $MODE != "download" && $MODE != "move" ) || $SOURCE_DIR == "" || $DESTINATION_DIRS == "" || ( "${DESTINATION_DIRS%%,*}" != "$DESTINATION_DIRS" && $MODE == "move" ) ]]; then
   echo ""
@@ -57,6 +57,7 @@ while IFS= read -r file; do
   month=$(echo $date | cut -d '-' -f 2)
 
   while IFS= read -r destination; do
+    destination="${destination%/}"
     unset found_file
     [[ -d "${destination}/${year}" ]] || mkdir "${destination}/${year}"
     [[ -d "${destination}/${year}/${month}" ]] || mkdir "${destination}/${year}/${month}"
