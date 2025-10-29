@@ -24,26 +24,31 @@ fi
 function download() {
   local file=$1
   local new_file=$2
+  local out=""
   cp -a "$file" "$new_file" ||
     { echo "ERROR: failed to save file://${file} as file://${new_file}" >> $ERROR_FILE; exit 1; }
-  echo -n "  🡢 file://${new_file} "
+  local out=$out$(echo -n "  🡢 file://${new_file} ")
   diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$new_file" | grep -Ev "File|Directory") ||
     { echo "ERROR: file exifs are not the same: file://${file} and file://${new_file}" >> $ERROR_FILE; exit 1; }
   cmp -s "$file" "$new_file" ||
     { echo "ERROR: files are not the same: file://${file} and file://${new_file}" >> $ERROR_FILE; exit 1; }
-  echo "✓"
+  local out=$out$(echo "✓")
+  echo -e "$out"
 }
 
 function move() {
   local file=$1
   local new_file=$2
+  local out=""
   mv -n "$file" "$new_file" ||
     { echo "ERROR: failed to move file://${file} as file://${new_file}" >> $ERROR_FILE; exit 1; }
-  echo "  🡢 file://${new_file} ✓"
+  local out=$out$(echo "  🡢 file://${new_file} ✓")
+  echo -e "$out"
 }
 
 function save() {
   local file=$1
+  local out=$2
   local name=$(basename "$file")
   local base="${name#*[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9]_}"
   local date=$(exiftool -s -s -s -d "%Y-%m-%d-%H%M%S" -DateTimeOriginal -CreateDate -FileModifyDate "$file" | grep -Ev "0000-|0000:" | head -n 1)
@@ -64,14 +69,14 @@ function save() {
         [[ -f $duplicate_file ]] || continue
         diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$duplicate_file" | grep -Ev "File|Directory") > /dev/null || continue
         cmp -s "$file" "$duplicate_file" > /dev/null || continue
-        echo "  🡤 file://${duplicate_file} is the same, skipping"
+        local out=$out$(echo "  🡤 file://${duplicate_file} is the same, skipping")
         local found_file=true
         break
       done <<< $(echo $new_file; find "${destination}/${year}/${month}" -type f -name "${date}*")
     fi
     if [[ ! $found_file ]]; then
       if [[ ! -f $new_file ]]; then
-        $MODE
+        local out=$out$($MODE)
       else
         diff <(exiftool "$file" | grep -Ev "File|Directory") <(exiftool "$new_file" | grep -Ev "File|Directory")
         cmp "$file" "$new_file"
@@ -82,11 +87,13 @@ function save() {
   done <<< $(echo "$DESTINATION_DIRS" | sed 's/,/\n/g')
 
   if [[ $MODE == "download" || $found_file ]]; then
-    echo -n "  𐄂 removing original "
+    local out=$out$(echo -n "  𐄂 removing original ")
     rm "$file" ||
       { echo "ERROR: saved file://${new_file}, but could not delete the original file file://${file}" >> $ERROR_FILE; exit 1; }
-    echo "✓"
+    local out=$out$(echo "✓")
   fi
+
+  echo -e "$out"
 }
 
 function track-parallel() {
@@ -117,9 +124,9 @@ while IFS= read -r file; do
   progress="[${count}/${total}]"
   columns=$(tput cols)
   N=$(( columns - ${#current_file} - ${#progress} ))
-  printf "${current_file}%${N}s${progress}\n"
+  local out=$(printf "${current_file}%${N}s${progress}\n")
 
-  save $file &
+  save $file "$out" &
   track-parallel  
 done <<< $(find "$SOURCE_DIR" -type f)
 
